@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -23,36 +24,36 @@ TagManager:
   - 
   - 
   - Background
+  - Background2
+  - Background3
   - 
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Vortex1
+  - Vortex2
+  - Vortex3
+  - Vortex4
+  - Vortex5
   - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player
-    uniqueID: 2791991731
-    locked: 0
-  - name: Enemy
-    uniqueID: 3888293741
-    locked: 0
-  - name: Ground
-    uniqueID: 982735897
+  - name: Background
+    uniqueID: 997499193
     locked: 0
   - name: Wall
     uniqueID: 3138905909
     locked: 0
-  - name: Background
-    uniqueID: 997499193
+  - name: Ground
+    uniqueID: 982735897
+    locked: 0
+  - name: Enemy
+    uniqueID: 3888293741
+    locked: 0
+  - name: Player
+    uniqueID: 2791991731
     locked: 0
