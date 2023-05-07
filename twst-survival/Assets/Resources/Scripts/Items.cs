@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyCollision : MonoBehaviour
+public class Items : MonoBehaviour
 {
-    public int health;
+    // Start is called before the first frame update
     void Start()
     {
         
@@ -14,11 +14,5 @@ public class EnemyCollision : MonoBehaviour
     void Update()
     {
         
-    }
-
-    public void TakeDamage(int damage)
-    {
-        health -= damage;
-        return;
     }
 }

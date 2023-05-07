@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private float _moveSpeedMultiplier = 1f; //for slowing down using focus for more precise movement
     private float _vx;
     private float _vy;
-
+    private static readonly int Moving = Animator.StringToHash("Moving");
 
 
     // Start is called before the first frame update
@@ -45,11 +45,11 @@ public class Player : MonoBehaviour
         
         if (_vx != 0 || _vy != 0)
         {
-            _animator.SetBool("Moving", true);
+            _animator.SetBool(Moving, true);
         }
         else
         {
-            _animator.SetBool("Moving", false);
+            _animator.SetBool(Moving, false);
         }
         
         if (_vx != 0 && _vy != 0) //make it so moving diagonally is the same as moving in one direction

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerWeapon : ShootBullet
+public class PlayerWeapon : MonoBehaviour
 {
     public enum ProjectileTypes {Spear, Hammer, Default}
 
@@ -14,16 +14,17 @@ public class PlayerWeapon : ShootBullet
     private Player _stats;
     private float _shootTimer = 0f;
     private Camera _camera;
-    private GameObject _projectile;
-    private float _spawnOffset = 1f;
-    
+    private Sprite _projectile;
+    private GameObject _gm;
+
     // Start is called before the first frame update
     void Awake()
     {
+        _gm =  GameObject.FindWithTag("GameController");
         _stats = gameObject.GetComponent<Player>();
         _source = gameObject.transform;
         _camera = Camera.main;
-        _projectile = Resources.Load<GameObject>("Prefabs/DefaultPlayerProjectile");
+        _projectile = Resources.Load<Sprite>("Art/Projectiles/DefaultPlayerProjectile");
     }
 
     // Update is called once per frame
@@ -39,7 +40,6 @@ public class PlayerWeapon : ShootBullet
             _shootTimer -= Time.deltaTime;
         }
     }
-    
 
     IEnumerator Burst()
     {
@@ -49,8 +49,8 @@ public class PlayerWeapon : ShootBullet
             Vector3 m = _camera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 shootDirection =  m - so;
             shootDirection.Normalize();
-            Shoot(_projectile, so, 0, shootDirection, _stats.damage, 20f, 1f, "Enemy");
-            yield return new WaitForSeconds(0.05f);
+            ShootBullet.Shoot(so, 0, shootDirection, _stats.damage, 20f, 1f, "Enemy", _projectile, 1, _gm);
+            yield return new WaitForSeconds(0.1f);
         }
         
     }
