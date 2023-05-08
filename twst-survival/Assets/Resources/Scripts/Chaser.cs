@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class Chaser : Enemy
     private static readonly int Spawning = Animator.StringToHash("Spawning");
     private static readonly int Moving = Animator.StringToHash("Moving");
 
-    void Awake()
+    void Awake() //awake used to load all references
     {
         _target = GameObject.FindWithTag("Player").transform;
         _anim = gameObject.GetComponent<Animator>();
@@ -26,15 +27,26 @@ public class Chaser : Enemy
 
     void Update()
     {
-        if (_activated)
+        if (_activated) //when activated, chase the player
         {
             Vector2 chaseDir = _target.position - transform.position;
-            chaseDir.Normalize();
+            chaseDir.Normalize(); //get the direction
             _rigidbody.velocity = chaseDir * _walkSpeed;
             
             //Debug.Log(healthPoints);
-            transform.localScale = new Vector3((_rigidbody.velocity.x > 0 ? 1 : -1), _scale.y, _scale.z);
+            transform.localScale = new Vector3((_rigidbody.velocity.x > 0 ? 1 : -1), _scale.y, _scale.z); //flip sprite based on direction
             _anim.SetBool(Moving, true);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D col) //when the player is inside the collider , deal damage (if active)
+    {
+        if (_activated)
+        {
+            if (col.CompareTag("Player"))
+            {
+                col.GetComponent<Player>().TakeDamage(1);
+            }
         }
     }
 

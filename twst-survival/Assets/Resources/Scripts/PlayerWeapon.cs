@@ -43,14 +43,14 @@ public class PlayerWeapon : MonoBehaviour
 
     IEnumerator Burst()
     {
-        for (int n = 0; n < _stats.amountOfProjectiles; n++)
+        for (int n = 0; n < _stats.amountOfProjectiles; n++) 
         {
             Vector3 so = _source.position + new Vector3(Random.Range(-2, 2), Random.Range(-2, 2));
             Vector3 m = _camera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 shootDirection =  m - so;
             shootDirection.Normalize();
             ShootBullet.Shoot(so, 0, shootDirection, _stats.damage, 20f, 1f, "Enemy", _projectile, 1, _gm);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f); //may change this for fire rate or some other stat
         }
         
     }

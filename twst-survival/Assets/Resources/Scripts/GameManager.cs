@@ -6,8 +6,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //this will be used to manage game stats (waves, money, events, maybe shops)
     private static GameManager _instance;
-    public GameObject GM;
+
+    [HideInInspector] public int abyssalWisps = 0;
+    [HideInInspector] public int wave = 0;
+
 
     public static GameManager Instance
     {

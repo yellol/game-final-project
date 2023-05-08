@@ -7,21 +7,26 @@ public class Player : MonoBehaviour
     public int damage = 1;
     public int amountOfProjectiles = 3;
 
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private int healthPoints = 10;
+    public float moveSpeed = 2f;
+    public int healthPoints = 6;
+    public int maxHealthPoints = 6;
+    
+    
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private float _moveSpeedMultiplier = 1f; //for slowing down using focus for more precise movement
     private float _vx;
     private float _vy;
+    private bool _invuln = false;
+    private UIManager _uiM;
     private static readonly int Moving = Animator.StringToHash("Moving");
 
 
     // Start is called before the first frame update
     void Awake()
     {
-
+        _uiM = GameObject.FindWithTag("UIManager").GetComponent<UIManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
@@ -74,9 +79,20 @@ public class Player : MonoBehaviour
         
     }
 
-    public void TakeDamage(int dmg)
+    public void TakeDamage(int dmg) 
     {
-        healthPoints -= dmg;
+        if (!_invuln) //invulnerability timer
+        {
+            healthPoints -= dmg;
+            _uiM.RefreshUI();
+            StartCoroutine(InvulnFrames());
+        }
     }
-    
+
+    IEnumerator InvulnFrames()
+    {
+        _invuln = true;
+        yield return new WaitForSeconds(0.25f);
+        _invuln = false;
+    }
 }
