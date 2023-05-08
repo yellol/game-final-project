@@ -30,11 +30,16 @@ public class Chaser : Enemy
         if (_activated) //when activated, chase the player
         {
             Vector2 chaseDir = _target.position - transform.position;
+            Vector2 chaseDist = chaseDir;
             chaseDir.Normalize(); //get the direction
             _rigidbody.velocity = chaseDir * _walkSpeed;
             
             //Debug.Log(healthPoints);
-            transform.localScale = new Vector3((_rigidbody.velocity.x > 0 ? 1 : -1), _scale.y, _scale.z); //flip sprite based on direction
+            if (chaseDist.x < 0.25 && chaseDist.y < 0.25)
+            {
+                transform.localScale = new Vector3((_rigidbody.velocity.x > 0 ? 1 : -1), _scale.y, _scale.z); //flip sprite based on direction
+            }
+
             _anim.SetBool(Moving, true);
         }
     }

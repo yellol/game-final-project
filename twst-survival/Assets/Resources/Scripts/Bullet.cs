@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour
     private int _hitListIndex = 0;
     private Animator _anim;
     private GameObject _spawnAnim;
+    private bool _despawning = false;
 
     [Range(0, 4)] public int angleCorrection = 0; //for snapping the sprite in the correct direction
     private static readonly int Despawn = Animator.StringToHash("Despawn");
@@ -100,12 +101,18 @@ public class Bullet : MonoBehaviour
 
     void BeginDespawn()
     {
-        _anim.SetTrigger(Despawn);
-        if (spawnAnimation)
+        if (!_despawning)
         {
-            _spawnAnim.SetActive(false);
+            _anim.SetTrigger(Despawn);
+            if (spawnAnimation)
+            {
+                _spawnAnim.SetActive(false);
+            }
+
+            damage = 0;
+            speed = 0;
+            _despawning = true;
         }
-        speed = 0;
     }
 
     public void RestartLifetime()
@@ -114,6 +121,8 @@ public class Bullet : MonoBehaviour
         {
             _spawnAnim.SetActive(true);
         }
+
+        _despawning = false;
         StartCoroutine(Lifetime());
     }
 

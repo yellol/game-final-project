@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d57cf3ee043d249a9aaa4badc46c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoints: 15
+  healthPoints: 3
   enemyName: Chaser
 --- !u!61 &3714953863092249586
 BoxCollider2D:

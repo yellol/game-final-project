@@ -53,7 +53,7 @@ using UnityEngine.UI;
             {
                 var h = Instantiate(heart, mainCanvas.transform, true);
                 healthPool[i] = h; 
-                healthPool[i].rectTransform.anchoredPosition = new Vector2((i*25) - ((_player.maxHealthPoints / 4)*25), -200);
+                healthPool[i].rectTransform.anchoredPosition = new Vector2((i*30) - ((_player.maxHealthPoints / 4)*30), -200);
                 //distributes created hearts 
             }
         }
