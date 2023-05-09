@@ -8,7 +8,7 @@ public class PlayerWeapon : MonoBehaviour
     public enum ProjectileTypes {Spear, Hammer, Default}
 
     public ProjectileTypes SelectedProjectile;
-    public float shootCD = 1f;
+    public float shootCD = 0.2f;
     
     private Transform _source;
     private Player _stats;

@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     public int healthPoints;
     public string enemyName;
     private SpawnManager _spawnManager;
-    private bool _invuln;
+    protected bool _invuln;
     
     void Start()
     {
@@ -20,15 +20,20 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        healthPoints -= damage;
-        if (healthPoints <= 0)
+        if (!_invuln)
         {
-            //put death explosion or animation here!
-            if (damage != 0) {
-                _spawnManager.enemyPool.Remove(gameObject.GetInstanceID()); 
-                _spawnManager.EnemyDied();
+            healthPoints -= damage;
+            if (healthPoints <= 0)
+            {
+                //put death explosion or animation here!
+                if (damage != 0)
+                {
+                    _spawnManager.enemyPool.Remove(gameObject.GetInstanceID());
+                    _spawnManager.EnemyDied();
+                }
+
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
     }
     

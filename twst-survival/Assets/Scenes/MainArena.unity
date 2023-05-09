@@ -3062,6 +3062,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyCount: 0
   enemyMax: 5
+  debounce: 0
+  enemyPool: 
 --- !u!1 &1774294468
 GameObject:
   m_ObjectHideFlags: 0
@@ -3904,6 +3906,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2944570927568650898, guid: a84c9cc5d03ab1144bdb5e31825d1d03, type: 3}
+      propertyPath: shootCD
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2944570927568650925, guid: a84c9cc5d03ab1144bdb5e31825d1d03, type: 3}
       propertyPath: m_Name
       value: Player

@@ -11,8 +11,7 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour
 {
     //goal: find a way to have set layouts or have an even distribution of enemies spawn in each wave
-
-    public int enemyCount = 0;
+    
     public int enemyMax = 24;
     public bool debounce = false;
 
@@ -28,6 +27,7 @@ public class SpawnManager : MonoBehaviour
     //temp variable just to test spawning
     private float _spawnDelay = 12f;
     private float _spawnTimeCache;
+    private bool _spawning = false;
     
     //load enemies types here!
     private GameObject _chaser;
@@ -71,9 +71,8 @@ public class SpawnManager : MonoBehaviour
     IEnumerator CatchEnemyCountException()
     {
         yield return new WaitForSeconds(0.5f);
-        if (enemyCount <= 0 && !debounce)
+        if (!debounce && !_spawning)
         {
-            enemyCount = 0;
             debounce = true;
             StartCoroutine(_gm.TransitionWave());
         }
@@ -81,6 +80,7 @@ public class SpawnManager : MonoBehaviour
 
     public IEnumerator Spawn()
     {
+        _spawning = true;
         int quadrant = 0;
         int r = Random.Range(0, _layout.Length);
         String chosenLayout = _layout[r];
@@ -125,6 +125,8 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
         }
+
+        _spawning = false;
     }
 
 }

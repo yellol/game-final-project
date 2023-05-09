@@ -25,12 +25,14 @@ public class Chaser : Enemy
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
         _anim.SetBool(Spawning, true);
         _scale = transform.localScale;
+        _invuln = true;
     }
 
     void Update()
     {
         if (_activated) //when activated, chase the player
         {
+            _invuln = false;
             Vector2 chaseDir = _target.position - transform.position;
             Vector2 chaseDist = chaseDir;
             chaseDir.Normalize(); //get the direction
