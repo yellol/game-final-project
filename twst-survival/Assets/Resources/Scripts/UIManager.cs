@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
     public class UIManager : MonoBehaviour
     {
@@ -11,6 +12,7 @@ using UnityEngine.UI;
         public Canvas mainCanvas;
         public Image[] healthPool;
         public Image[] itemPool;
+        public TMP_Text waveText;
 
         public Image heart;
         
@@ -33,17 +35,6 @@ using UnityEngine.UI;
             _heartHalf = _heartAll[2];
             InitializeUI();
         }
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
 
         public void InitializeUI()
         {
@@ -56,6 +47,8 @@ using UnityEngine.UI;
                 healthPool[i].rectTransform.anchoredPosition = new Vector2((i*30) - ((_player.maxHealthPoints / 4)*30), -200);
                 //distributes created hearts 
             }
+
+            waveText.text = "Wave " + _gm.wave;
         }
 
         public void RefreshUI()
@@ -82,6 +75,12 @@ using UnityEngine.UI;
                     healthPool[j].sprite = _heartEmpty;
                 }
             }
+            
+        }
+
+        public void RefreshWave() //more singular so it doesnt need to update hp if you dont get hit, etc.
+        {
+            waveText.text = "Wave " + _gm.wave;
         }
         
     }

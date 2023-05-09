@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class Chaser : Enemy
 //enemies need box colliders AND rigidbodies to be collided with projectiles. please remember this.
@@ -18,6 +19,7 @@ public class Chaser : Enemy
 
     void Awake() //awake used to load all references
     {
+        _walkSpeed= Random.Range(4f, 7f);
         _target = GameObject.FindWithTag("Player").transform;
         _anim = gameObject.GetComponent<Animator>();
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();

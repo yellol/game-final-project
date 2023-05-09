@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int damage = 1;
+    public int damage = 20;
     public int amountOfProjectiles = 3;
 
     public float moveSpeed = 2f;
@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
         _uiM = GameObject.FindWithTag("UIManager").GetComponent<UIManager>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        StartCoroutine(InvulnFrames());
     }
 
     // Update is called once per frame
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int dmg) 
     {
+        //Debug.Log(_invuln);
         if (!_invuln) //invulnerability timer
         {
             healthPoints -= dmg;

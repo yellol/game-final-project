@@ -46,8 +46,7 @@ public class PoolBullets : MonoBehaviour
         return b;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReinitiatePool() //use this if somehow the pool disappears while playing
     {
         
     }

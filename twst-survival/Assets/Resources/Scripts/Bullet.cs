@@ -22,6 +22,7 @@ public class Bullet : MonoBehaviour
     private Transform _sprite;
     private int[] _hitList;
     private int _hitListIndex = 0;
+    private int _damageCached;
     private Animator _anim;
     private GameObject _spawnAnim;
     private bool _despawning = false;
@@ -33,13 +34,14 @@ public class Bullet : MonoBehaviour
 
     public void Awake()
     {
-        Debug.Log(target);
+        //Debug.Log(target);
         _spawnAnim = transform.Find("SpawnAnimation").gameObject;
         if (spawnAnimation)
         {
             _spawnAnim.SetActive(true);
         } //for consistency's sake
         _anim = GetComponentInChildren<Animator>();
+        _damageCached = damage;
         StartCoroutine(Lifetime()); //start counting down as soon as instance is made
     }
     public void SetPool(IObjectPool<GameObject> p)
@@ -123,6 +125,7 @@ public class Bullet : MonoBehaviour
         }
 
         _despawning = false;
+        damage = _damageCached;
         StartCoroutine(Lifetime());
     }
 

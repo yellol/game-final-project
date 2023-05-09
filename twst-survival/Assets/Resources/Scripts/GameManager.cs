@@ -7,31 +7,39 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     //this will be used to manage game stats (waves, money, events, maybe shops)
-    private static GameManager _instance;
 
     [HideInInspector] public int abyssalWisps = 0;
-    [HideInInspector] public int wave = 0;
+    [HideInInspector] public int wave = 1;
 
+    private SpawnManager _spm;
+    private UIManager _uim;
 
-    public static GameManager Instance
-    {
-        get
-        {
-            if (_instance is null)
-            {
-                Debug.LogError("GM is null");
-            }
-            return _instance;
-        }
-    }
-    
-    
-    // initialize singleton
     void Awake()
     {
-        _instance = this;
+        _spm = gameObject.GetComponentInChildren<SpawnManager>();
+        _uim = gameObject.GetComponentInChildren<UIManager>();
     }
-    
+
+    public void NewWave()
+    {
+        //add enemies to pool here maybe...
+        wave += 1;
+        _spm.enemyMax++;
+        _spm.debounce = false;
+        _uim.RefreshWave();
+        StartCoroutine(_spm.Spawn());
+    }
+
+    public IEnumerator TransitionWave()
+    {
+        //do any special stuff here
+        yield return new WaitForSeconds(3f);
+        NewWave();
+    }
+
+
+
+
 
     // Update is called once per frame
     void Update()
