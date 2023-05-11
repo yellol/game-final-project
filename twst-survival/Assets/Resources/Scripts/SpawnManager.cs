@@ -16,12 +16,7 @@ public class SpawnManager : MonoBehaviour
     public bool debounce = false;
 
     public List<int> enemyPool = new List<int>();
-    
-    private float _xMin = -12;
-    private float _yMin = -11;
-    private float _xMax = 12;
-    private float _yMax = 11;
-    
+
     //dimensions of arena: 27 x 26
 
     //temp variable just to test spawning
@@ -107,8 +102,8 @@ public class SpawnManager : MonoBehaviour
                     xPos = Random.Range(-3, 5);
                     break;
                 case "SweepDiagonal":
-                    yPos = (yPos * (i+1)) - (26/2);
-                    xPos = (xPos * (i+1)) - (26/2);
+                    yPos = (yPos * (i+1)) - (26f/2f);
+                    xPos = (xPos * (i+1)) - (26f/2f);
                     break;
                 default:
                     xPos = _quadrants[quadrant].x;

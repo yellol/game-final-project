@@ -28,7 +28,7 @@ public class Chaser : Enemy
         _invuln = true;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (_activated) //when activated, chase the player
         {

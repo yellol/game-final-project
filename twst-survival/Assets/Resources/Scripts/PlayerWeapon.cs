@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour
 {
-    public enum ProjectileTypes {Spear, Hammer, Default}
-
-    public ProjectileTypes SelectedProjectile;
     public float shootCD = 0.2f;
+    public bool catchInput = true;
     
     private Transform _source;
     private Player _stats;
     private float _shootTimer = 0f;
     private Camera _camera;
     private Sprite _projectile;
+    private GameObject _chosenProjectile;
     private GameObject _gm;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -24,20 +24,28 @@ public class PlayerWeapon : MonoBehaviour
         _stats = gameObject.GetComponent<Player>();
         _source = gameObject.transform;
         _camera = Camera.main;
-        _projectile = Resources.Load<Sprite>("Art/Projectiles/DefaultPlayerProjectile");
+        _projectile = Resources.Load<Sprite>("Art/Projectiles/SpearPlayerProjectile");
+        _chosenProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/DefaultPlayerProjectile");
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetButton("Shoot") && _shootTimer <= 0)
         {
-            StartCoroutine(Burst());
-            _shootTimer = shootCD;
+            if (catchInput)
+            {
+                StartCoroutine(Burst());
+                _shootTimer = shootCD;
+            }
         }
         else
         {
-            _shootTimer -= Time.deltaTime;
+            if (_shootTimer >= 0)
+            {
+                _shootTimer -= Time.deltaTime;
+            }
         }
     }
 
@@ -49,9 +57,28 @@ public class PlayerWeapon : MonoBehaviour
             Vector3 m = _camera.ScreenToWorldPoint(Input.mousePosition);
             Vector2 shootDirection =  m - so;
             shootDirection.Normalize();
-            ShootBullet.Shoot(so, 0, shootDirection, _stats.damage, 20f, 1f, "Enemy", _projectile, 1, _gm);
+            //ShootBullet.Shoot(so, 0, shootDirection, _stats.damage, 20f, 1f, "Enemy", _projectile, 1, _gm, false);
+            ShootBullet.ShootWithPrefab(so, 0, shootDirection, _chosenProjectile, _gm);
             yield return new WaitForSeconds(0.1f); //may change this for fire rate or some other stat
         }
         
+    }
+
+    public void SelectNewProjectile(string choice)
+    {
+        
+        switch (choice)
+        {
+            case "Spear":
+                Debug.Log("Spear chosen.");
+                _chosenProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/SpearPlayerProjectile");
+                break;
+            case "Hammer":
+                _chosenProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/HammerPlayerProjectile");
+                break;
+            case "Default":
+                _chosenProjectile = Resources.Load<GameObject>("Prefabs/Projectiles/DefaultPlayerProjectile");
+                break;
+        }
     }
 }

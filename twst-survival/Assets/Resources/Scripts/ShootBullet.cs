@@ -6,7 +6,7 @@ public class ShootBullet : MonoBehaviour
 //class for use in enemies shooting bullets so i dont need to rewrite the function everytime, etc.
 //reminder to add functions that add projectiles on death
 {
-    public static void Shoot(Vector3 pos, float offset, Vector2 dir, int damage, float spd, float time, string target, Sprite s, int ac, GameObject pool)
+    public static void Shoot(Vector3 pos, float offset, Vector2 dir, int damage, float spd, float time, string target, Sprite s, int ac, GameObject pool, bool piercing)
     {
         //create a specified projectile prefab at a specified position + offset, using a direction calculated from subtracting two points within the world
         //REMINDER: write a version of this function using euler angles (use Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg)
@@ -60,19 +60,23 @@ public class ShootBullet : MonoBehaviour
             newBullet.transform.rotation = Quaternion.identity;
 
             Bullet prefabProps = prefabBullet.GetComponent<Bullet>();
-            Sprite prefabSpr = prefabBullet.GetComponentInChildren<SpriteRenderer>().sprite;
+            SpriteRenderer prefabSpr = prefabBullet.GetComponentInChildren<SpriteRenderer>(true);
 
             Bullet bulletProps = newBullet.GetComponent<Bullet>();
-            SpriteRenderer spr = newBullet.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer spr = newBullet.GetComponentInChildren<SpriteRenderer>(true);
 
-            //set all properties of the bullet
-            spr.sprite = prefabSpr;
+           //set all properties of the bullet
+            
+            
+            
+            spr.sprite = prefabSpr.sprite;
             bulletProps.dir = dir;
             bulletProps.angleCorrection = prefabProps.angleCorrection;
             bulletProps.FixRotation();
             bulletProps.damage = prefabProps.damage;
             bulletProps.speed = prefabProps.speed;
             bulletProps.lifetime = prefabProps.lifetime;
+            bulletProps.piercing = prefabProps.piercing;
             bulletProps.RestartLifetime();
             switch (prefabProps.target) //set what type of entity the bullet will hit
             {

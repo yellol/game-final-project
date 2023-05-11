@@ -49,12 +49,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: 1
+  piercing: 0
+  speed: 5
+  damage: 5
+  lifetime: 0
+  chosenSprite: {fileID: 21300000, guid: cc149684f60ecba46a1ec585afd2f225, type: 3}
   dir: {x: 0, y: 0}
   rotation: 0
-  damage: 5
-  speed: 5
-  lifetime: 0
-  piercing: 0
   spawnAnimation: 0
   angleCorrection: 1
 --- !u!61 &1031337958355075387

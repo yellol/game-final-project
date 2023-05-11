@@ -8,8 +8,11 @@ public class GameManager : MonoBehaviour
 {
     //this will be used to manage game stats (waves, money, events, maybe shops)
 
-    [HideInInspector] public int abyssalWisps = 0;
+    public List<GameObject> ItemList = new List<GameObject>();
+    
+    [HideInInspector] public int abyssalWisps = 95;
     [HideInInspector] public int wave = 1;
+    
 
     private SpawnManager _spm;
     private UIManager _uim;
@@ -38,6 +41,11 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void AddItem(GameObject item)
+    {
+        item.GetComponent<Item>().OnActivation();
+        ItemList.Add(item);
+    }
 
 
 

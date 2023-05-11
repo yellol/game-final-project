@@ -9,19 +9,18 @@ public class Bullet : MonoBehaviour
     public enum Target {Player, Enemy}
     
     public Target target;
+    public bool piercing = true;
+    public float speed;
+    public int damage;
+    public float lifetime = 0f;
     [HideInInspector] public Vector2 dir;
     [HideInInspector] public float rotation;
-    [HideInInspector] public int damage;
-    [HideInInspector] public float speed;
-    [HideInInspector] public float lifetime = 0f;
-    [HideInInspector] public bool piercing = true;
     [HideInInspector] public bool spawnAnimation = false;
-    
+
     private IObjectPool<GameObject> b_pool;
 
     private Transform _sprite;
-    private int[] _hitList;
-    private int _hitListIndex = 0;
+    private List<int> hitList = new List<int>();
     private int _damageCached;
     private Animator _anim;
     private GameObject _spawnAnim;
@@ -39,8 +38,10 @@ public class Bullet : MonoBehaviour
         if (spawnAnimation)
         {
             _spawnAnim.SetActive(true);
-        } //for consistency's sake
+        }
+        //for consistency's sake
         _anim = GetComponentInChildren<Animator>();
+        _anim.enabled = false; //disabled during lifetime in order to change the bullet sprite!
         _damageCached = damage;
         StartCoroutine(Lifetime()); //start counting down as soon as instance is made
     }
@@ -53,6 +54,7 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(dir * speed * Time.deltaTime);
     }
+    
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -62,23 +64,12 @@ public class Bullet : MonoBehaviour
             {
                // Debug.Log("hi");
                 int identifier = col.GetInstanceID();
-                bool found = false;
                 if (piercing) //if the projectile is piercing, make sure it does not trigger damage more than once (im not even sure if this is needed)
                 {
-                    for (int i = 0; i < _hitListIndex; i++)
+                    if (!hitList.Contains(identifier))
                     {
-                        if (_hitList[_hitListIndex] == identifier)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
-                    {
-                        _hitList[_hitListIndex] = identifier;
-                        _hitListIndex++;
                         col.GetComponent<Enemy>().TakeDamage(damage);
+                        hitList.Add(identifier);
                     }
                 }
                 else
@@ -103,6 +94,7 @@ public class Bullet : MonoBehaviour
 
     void BeginDespawn()
     {
+        _anim.enabled = true;
         if (!_despawning)
         {
             _anim.SetTrigger(Despawn);
@@ -119,6 +111,7 @@ public class Bullet : MonoBehaviour
 
     public void RestartLifetime()
     {
+        _anim.enabled = false;
         if (spawnAnimation)
         {
             _spawnAnim.SetActive(true);
@@ -126,6 +119,7 @@ public class Bullet : MonoBehaviour
 
         _despawning = false;
         damage = _damageCached;
+        hitList.Clear();
         StartCoroutine(Lifetime());
     }
 
